@@ -16,6 +16,7 @@ public class Rectangle extends Shape {
     return 2 * (width + height);
   }
 
+  @Override
   public void printInfo() {
     System.out.println("Rectangle: width = " + width + ", height = " + height);
     System.out.println("Area: " + getArea());

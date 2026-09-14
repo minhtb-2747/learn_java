@@ -20,6 +20,7 @@ public class Circle extends Shape {
     return getPerimeter();
   }
 
+  @Override
   public void printInfo() {
     System.out.println("Circle: radius = " + (width / 2));
     System.out.printf("Area: %.2f%n", getArea());
