@@ -8,16 +8,8 @@ public class Electronics extends Product {
       double capacityKW) {
     super(productCode, productName, quantity, productPrice);
 
-    if (warrantyMonths < 0) {
-      throw new IllegalArgumentException("warrantyMonths must be >= 0");
-    }
-
-    if (capacityKW < 0) {
-      throw new IllegalArgumentException("capacityKW must be >= 0");
-    }
-
-    this.warrantyMonths = warrantyMonths;
-    this.capacityKW = capacityKW;
+    setWarrantyMonths(warrantyMonths);
+    setCapacityKW(capacityKW);
   }
 
   @Override
@@ -36,7 +28,7 @@ public class Electronics extends Product {
     return warrantyMonths;
   }
 
-  public void setWarrantyMonths(int warrantyMonths) {
+  public final void setWarrantyMonths(int warrantyMonths) {
     // validate warrantyMonths >= 0
     if (warrantyMonths < 0) {
       throw new IllegalArgumentException("warrantyMonths must be >= 0");
@@ -48,7 +40,7 @@ public class Electronics extends Product {
     return capacityKW;
   }
 
-  public void setCapacityKW(double capacityKW) {
+  public final void setCapacityKW(double capacityKW) {
     if (capacityKW < 0) {
       throw new IllegalArgumentException("capacityKW must be >= 0");
     }

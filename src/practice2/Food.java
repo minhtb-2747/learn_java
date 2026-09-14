@@ -11,18 +11,30 @@ public class Food extends Product {
       LocalDate expiryDate, String supplierName) {
     super(productCode, productName, quantity, productPrice);
 
-    // expiryDate must be after or equal manufactureDate
+    validateDateRange(manufactureDate, expiryDate);
+    this.manufactureDate = manufactureDate;
+    this.expiryDate = expiryDate;
+
+    setSupplierName(supplierName);
+  }
+
+  // expiryDate must be after or equal manufactureDate
+  private static void validateDateRange(LocalDate manufactureDate, LocalDate expiryDate) {
+    if (manufactureDate == null) {
+      throw new IllegalArgumentException("manufactureDate cannot be null");
+    }
+
+    if (expiryDate == null) {
+      throw new IllegalArgumentException("expiryDate cannot be null");
+    }
+
     if (expiryDate.isBefore(manufactureDate)) {
       throw new IllegalArgumentException("expiryDate must be after or equal manufactureDate");
     }
-
-    this.manufactureDate = manufactureDate;
-    this.expiryDate = expiryDate;
-    this.supplierName = supplierName;
   }
 
   @Override
-  public double getVatRate() {
+  protected double getVatRate() {
     return 0.05; // 5% VAT for food products
   }
 
@@ -38,17 +50,8 @@ public class Food extends Product {
     return manufactureDate;
   }
 
-  public void setManufactureDate(LocalDate manufactureDate) {
-
-    // validate empty manufactureDate
-    if (manufactureDate == null || manufactureDate.toString().trim().isEmpty()) {
-      throw new IllegalArgumentException("manufactureDate cannot be null");
-    }
-
-    // manufactureDate must be before or equal expiryDate
-    if (manufactureDate.isAfter(expiryDate)) {
-      throw new IllegalArgumentException("manufactureDate must be before or equal expiryDate");
-    }
+  public final void setManufactureDate(LocalDate manufactureDate) {
+    validateDateRange(manufactureDate, this.expiryDate);
 
     this.manufactureDate = manufactureDate;
   }
@@ -57,26 +60,17 @@ public class Food extends Product {
     return expiryDate;
   }
 
-  public void setExpiryDate(LocalDate expiryDate) {
-    // validate empty expiryDate
-    if (expiryDate == null || expiryDate.toString().trim().isEmpty()) {
-      throw new IllegalArgumentException("expiryDate cannot be null");
-    }
-
-    // expiryDate must be after or equal manufactureDate
-    if (expiryDate.isBefore(manufactureDate)) {
-      throw new IllegalArgumentException("expiryDate must be after or equal manufactureDate");
-    }
+  public final void setExpiryDate(LocalDate expiryDate) {
+    validateDateRange(this.manufactureDate, expiryDate);
 
     this.expiryDate = expiryDate;
   }
 
   public String getSupplierName() {
-
     return supplierName;
   }
 
-  public void setSupplierName(String supplierName) {
+  public final void setSupplierName(String supplierName) {
     // validate empty supplierName
     if (supplierName == null || supplierName.trim().isEmpty()) {
       throw new IllegalArgumentException("supplierName cannot be null or empty");

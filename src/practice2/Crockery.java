@@ -12,8 +12,8 @@ public class Crockery extends Product {
       LocalDate arrivalDate) {
     super(productCode, productName, quantity, productPrice);
 
-    this.manufacturer = manufacturer;
-    this.arrivalDate = arrivalDate;
+    setManufacturer(manufacturer);
+    setArrivalDate(arrivalDate);
   }
 
   @Override
@@ -33,7 +33,7 @@ public class Crockery extends Product {
     return manufacturer;
   }
 
-  public void setManufacturer(String manufacturer) {
+  public final void setManufacturer(String manufacturer) {
     // validate empty manufacturer
     if (manufacturer == null || manufacturer.trim().isEmpty()) {
       throw new IllegalArgumentException("manufacturer cannot be null or empty");
@@ -46,9 +46,8 @@ public class Crockery extends Product {
     return arrivalDate;
   }
 
-  public void setArrivalDate(LocalDate arrivalDate) {
-    // validate empty arrivalDate
-    if (arrivalDate == null || arrivalDate.toString().trim().isEmpty()) {
+  public final void setArrivalDate(LocalDate arrivalDate) {
+    if (arrivalDate == null) {
       throw new IllegalArgumentException("arrivalDate cannot be null");
     }
 
