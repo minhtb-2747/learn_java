@@ -1,6 +1,6 @@
 package practice1;
 
-public abstract class Shape {
+public class Shape {
   protected double width;
   protected double height;
 
@@ -9,9 +9,7 @@ public abstract class Shape {
     this.height = height;
   }
 
-  public abstract double getArea();
-
-  public abstract double getPerimeter();
-
-  public abstract void printInfo();
+  public void printInfo() {
+    System.out.println("Shape: width = " + width + ", height = " + height);
+  }
 }

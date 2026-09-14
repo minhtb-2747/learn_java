@@ -1,29 +1,28 @@
 package practice1;
 
 public class Circle extends Shape {
+
   public Circle(double radius) {
     super(radius * 2, radius * 2); // width = height = 2r
   }
 
-  @Override
+  public double getRadius() {
+    return width / 2;
+  }
+
   public double getArea() {
-    double radius = width / 2;
+    double radius = getRadius();
     return Math.PI * radius * radius;
   }
 
-  @Override
-  public double getPerimeter() {
-    return Math.PI * width; // diameter = width
-  }
-
   public double getCircumference() {
-    return getPerimeter();
+    return width * Math.PI;
   }
 
   @Override
   public void printInfo() {
-    System.out.println("Circle: radius = " + (width / 2));
+    System.out.println("Circle: radius = " + getRadius());
     System.out.printf("Area: %.2f%n", getArea());
-    System.out.printf("Circumference: %.2f%n", getPerimeter());
+    System.out.printf("Circumference: %.2f%n", getCircumference());
   }
 }
