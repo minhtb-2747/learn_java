@@ -1,0 +1,12 @@
+# Compiled class files / VS Code Java output
+bin/
+*.class
+
+# Packaged archives
+*.jar
+*.war
+*.ear
+
+# JVM crash logs
+hs_err_pid*
+replay_pid*
