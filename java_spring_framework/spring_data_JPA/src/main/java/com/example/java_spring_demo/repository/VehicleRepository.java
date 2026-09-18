@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.example.java_spring_demo.entity.Manufacturer;
 import com.example.java_spring_demo.entity.Vehicle;
 
 // không cần tự thêm @Repository do VehicleRepository extends JpaRepository, Spring Data JPA sẽ tự động tạo bean cho VehicleRepository
@@ -16,7 +17,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
   boolean existsByVehicleNumber(String vehicleNumber);
 
-  List<Vehicle> findByManufacturer(String manufacturer);
+  List<Vehicle> findByManufacturer(Manufacturer manufacturer);
 
   List<Vehicle> findByColorAndYearOfManufacture(String color, int yearOfManufacture);
 

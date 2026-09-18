@@ -13,8 +13,9 @@ public class Vehicle {
   @Column(name = "vehicle_number", nullable = false, length = 5)
   private String vehicleNumber;
 
-  @Column(name = "manufacturer", nullable = false)
-  private String manufacturer;
+  @Enumerated(EnumType.STRING)
+  @Column(name = "manufacturer", nullable = false, length = 20)
+  private Manufacturer manufacturer;
 
   @Column(name = "year_of_manufacture", nullable = false)
   private int yearOfManufacture;
@@ -29,15 +30,14 @@ public class Vehicle {
   public Vehicle() {
   }
 
-  public Vehicle(String vehicleNumber, String manufacturer, int yearOfManufacture, String color,
-      VehicleOwner vehicleOwner) {
+  public Vehicle(String vehicleNumber, Manufacturer manufacturer, int yearOfManufacture,
+      String color, VehicleOwner vehicleOwner) {
     this.vehicleNumber = vehicleNumber;
     this.manufacturer = manufacturer;
     this.yearOfManufacture = yearOfManufacture;
     this.color = color;
     this.vehicleOwner = vehicleOwner;
   }
-
 
   public Long getId() {
     return id;
@@ -51,11 +51,11 @@ public class Vehicle {
     this.vehicleNumber = vehicleNumber;
   }
 
-  public String getManufacturer() {
+  public Manufacturer getManufacturer() {
     return manufacturer;
   }
 
-  public void setManufacturer(String manufacturer) {
+  public void setManufacturer(Manufacturer manufacturer) {
     this.manufacturer = manufacturer;
   }
 
