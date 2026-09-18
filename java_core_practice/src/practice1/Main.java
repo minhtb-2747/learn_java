@@ -13,5 +13,18 @@ public class Main {
     System.out.println("------------------------------");
     Circle circle = new Circle(4);
     circle.printInfo();
+
+    System.out.println("----------------------------");
+
+    Shape[] shapes = {
+        new Shape(3, 4),
+        new Circle(4),
+        new Rectangle(5, 10)
+    };
+
+    for (Shape s : shapes) {
+      s.printInfo();
+      System.out.println("------------------------------");
+    }
   }
 }
