@@ -1,66 +1,72 @@
 package com.employee_management.employee_management.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.employee_management.employee_management.dto.EmployeeResponse;
-import com.employee_management.employee_management.model.Employee;
+import com.employee_management.employee_management.Entity.Department;
+import com.employee_management.employee_management.Entity.Employee;
+import com.employee_management.employee_management.repository.EmployeeRepository;
 
 @Service
 public class EmployeeService {
 
-  private final PasswordEncoder passwordEncoder;
   private final UtilityService utilityService;
+  private final EmployeeRepository employeeRepository;
+  private final DepartmentService departmentService;
 
-  private final List<Employee> employees = new ArrayList<>();
-  private final AtomicLong sequence = new AtomicLong();
-
-  public EmployeeService(UtilityService utilityService, PasswordEncoder passwordEncoder) {
-    this.passwordEncoder = passwordEncoder;
+  public EmployeeService(UtilityService utilityService, EmployeeRepository employeeRepository,
+      DepartmentService departmentService) {
     this.utilityService = utilityService;
+    this.employeeRepository = employeeRepository;
+    this.departmentService = departmentService;
   }
 
-  public List<EmployeeResponse> findAll() {
-    return employees.stream()
-        .map(e -> new EmployeeResponse(e.id(), e.code(), e.name()))
-        .toList();
+  public List<Employee> findAll() {
+    return employeeRepository.findAll();
   }
 
-  public Optional<EmployeeResponse> findById(Long id) {
-    return employees.stream()
-        .filter(e -> e.id().equals(id))
-        .findFirst()
-        .map(e -> new EmployeeResponse(e.id(), e.code(), e.name()));
+  public Optional<Employee> findById(Long id) {
+    return employeeRepository.findById(id);
   }
 
-  public List<EmployeeResponse> searchByName(String name) {
-    String keyword = name.toLowerCase();
-
-    return employees.stream()
-        .filter(e -> e.name().toLowerCase().contains(keyword))
-        .map(e -> new EmployeeResponse(e.id(), e.code(), e.name()))
-        .toList();
+  public List<Employee> searchByName(String name) {
+    return employeeRepository.findByNameContainingIgnoreCase(name);
   }
 
-  public EmployeeResponse createEmployee(String name, String password) {
-    Long id = sequence.incrementAndGet(); // id tăng dần
-    String employeeCode = utilityService.generatedEmployeeCode();
-    String employeeName = utilityService.formatName(name);
-    String enCodedPassword = passwordEncoder.encode(password);
+  public List<Employee> searchByDepartment(String departmentName) {
+    return employeeRepository.findByDepartmentNameContainingIgnoreCase(departmentName);
+  }
 
-    Employee employee = new Employee(
-        id,
-        employeeCode,
-        employeeName,
-        enCodedPassword);
+  public Employee createEmployee(String name, String email, Long departmentId) {
+    Department department = departmentService.findById(departmentId)
+        .orElseThrow(() -> new IllegalArgumentException("Department not found with id: " + departmentId));
 
-    employees.add(employee);
+    Employee employee = new Employee(utilityService.formatName(name), email, department);
 
-    return new EmployeeResponse(employee.id(), employee.code(), employee.name());
+    return employeeRepository.save(employee);
+  }
+
+  public Employee updateEmployee(Long id, String name, String email, Long departmentId) {
+    Employee employee = employeeRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Employee not found with id: " + id));
+
+    Department department = departmentService.findById(departmentId)
+        .orElseThrow(() -> new IllegalArgumentException("Department not found with id: " + departmentId));
+
+    employee.setName(utilityService.formatName(name));
+    employee.setEmail(email);
+    employee.setDepartment(department);
+
+    return employeeRepository.save(employee);
+  }
+
+  public void deleteEmployee(Long id) {
+    if (!employeeRepository.existsById(id)) {
+      throw new IllegalArgumentException("Employee not found with id: " + id);
+    }
+
+    employeeRepository.deleteById(id);
   }
 }
