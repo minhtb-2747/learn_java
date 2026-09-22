@@ -1,6 +1,7 @@
 package practice3;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -31,9 +32,9 @@ public class VehicleManager {
     return true;
   }
 
-  // Get all vehicles being managed
+  // Get all vehicles being managed (read-only view)
   public List<Vehicle> getVehicles() {
-    return vehicles;
+    return Collections.unmodifiableList(vehicles);
   }
 
   // 2. Search for transport by vehicle number

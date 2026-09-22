@@ -15,7 +15,7 @@ public class Motorbike extends Vehicle {
     return capacity;
   }
 
-  public void setCapacity(double capacity) {
+  public final void setCapacity(double capacity) {
     if (capacity <= 0) {
       throw new IllegalArgumentException("Capacity must be greater than 0.");
     }

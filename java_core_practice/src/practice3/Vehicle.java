@@ -25,7 +25,7 @@ public abstract class Vehicle {
     return vehicleNumber;
   }
 
-  public void setVehicleNumber(String vehicleNumber) {
+  public final void setVehicleNumber(String vehicleNumber) {
     if (vehicleNumber == null || vehicleNumber.trim().isEmpty() || vehicleNumber.length() != 5) {
       throw new IllegalArgumentException("Vehicle number must have exactly 5 characters.");
     }
@@ -33,7 +33,7 @@ public abstract class Vehicle {
     this.vehicleNumber = vehicleNumber;
   }
 
-  public void setManufacturer(Manufacturer manufacturer) {
+  public final void setManufacturer(Manufacturer manufacturer) {
     if (manufacturer == null) {
       throw new IllegalArgumentException(
           "Manufacturer cannot be null.");
@@ -46,7 +46,7 @@ public abstract class Vehicle {
     return manufacturer;
   }
 
-  public void setYearOfManufacture(int yearOfManufacture) {
+  public final void setYearOfManufacture(int yearOfManufacture) {
     int currentYear = Year.now().getValue();
 
     if (yearOfManufacture <= 2000
@@ -59,7 +59,7 @@ public abstract class Vehicle {
     this.yearOfManufacture = yearOfManufacture;
   }
 
-  public void setColor(String color) {
+  public final void setColor(String color) {
     if (color == null || color.trim().isEmpty()) {
       throw new IllegalArgumentException(
           "Color cannot be empty.");
@@ -68,7 +68,7 @@ public abstract class Vehicle {
     this.color = color;
   }
 
-  public void setVehicleOwner(VehicleOwner vehicleOwner) {
+  public final void setVehicleOwner(VehicleOwner vehicleOwner) {
     if (vehicleOwner == null) {
       throw new IllegalArgumentException(
           "Vehicle owner cannot be null.");

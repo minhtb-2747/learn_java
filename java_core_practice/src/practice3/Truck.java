@@ -16,7 +16,7 @@ public class Truck extends Vehicle {
     return tonnage;
   }
 
-  public void setTonnage(double tonnage) {
+  public final void setTonnage(double tonnage) {
     if (tonnage <= 0) {
       throw new IllegalArgumentException("Tonnage must be greater than 0.");
     }

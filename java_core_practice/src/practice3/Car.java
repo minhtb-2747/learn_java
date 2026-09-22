@@ -17,7 +17,7 @@ public class Car extends Vehicle {
     return numberOfSeats;
   }
 
-  public void setNumberOfSeats(int numberOfSeats) {
+  public final void setNumberOfSeats(int numberOfSeats) {
     if (numberOfSeats <= 0) {
       throw new IllegalArgumentException("Number of seats must be greater than 0.");
     }
@@ -29,7 +29,7 @@ public class Car extends Vehicle {
     return engineType;
   }
 
-  public void setEngineType(String engineType) {
+  public final void setEngineType(String engineType) {
     if (engineType == null || engineType.trim().isEmpty()) {
       throw new IllegalArgumentException("Engine type cannot be null or empty.");
     }
