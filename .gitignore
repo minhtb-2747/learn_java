@@ -1,0 +1,28 @@
+# ── Rác hệ điều hành ────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editor / IDE ────────────────────────────────────
+*.swp
+*~
+.idea/
+*.iml
+
+# ── Lưới an toàn cho project tạo sau ────────────────
+# (mỗi project con đã có .gitignore riêng, đây là backup)
+**/target/
+**/bin/
+*.class
+*.jar
+*.log
+
+# ── Secrets: tuyệt đối không commit ─────────────────
+.env
+.env.local
+*.pem
+application-local.properties
+
+# ── JVM crash logs ──────────────────────────────────
+hs_err_pid*
+replay_pid*

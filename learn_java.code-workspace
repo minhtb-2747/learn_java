@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"name": "java_core_practice",
+			"path": "java_core_practice"
+		},
+		{
+			"name": "employee_management",
+			"path": "java_spring_framework/employee_management"
+		},
+		{
+			"name": "spring_data_JPA",
+			"path": "java_spring_framework/spring_data_JPA"
+		}
+	],
+	"settings": {
+		"java.compile.nullAnalysis.mode": "automatic",
+		"java.configuration.updateBuildConfiguration": "automatic"
+	}
+}
