@@ -68,4 +68,8 @@ public class EmployeeController {
     return ResponseEntity.noContent().build();
   }
 
+  @GetMapping("/count")
+  public long countAll() {
+    return employeeService.countAll();
+  }
 }
