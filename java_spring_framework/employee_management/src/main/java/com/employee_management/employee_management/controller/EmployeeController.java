@@ -17,6 +17,8 @@ import com.employee_management.employee_management.Entity.Employee;
 import com.employee_management.employee_management.dto.CreateEmployeeRequest;
 import com.employee_management.employee_management.service.EmployeeService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
@@ -43,7 +45,7 @@ public class EmployeeController {
   }
 
   @PostMapping
-  public ResponseEntity<Employee> createEmployee(@RequestBody CreateEmployeeRequest request) {
+  public ResponseEntity<Employee> createEmployee(@Valid @RequestBody CreateEmployeeRequest request) {
     Employee created = employeeService.createEmployee(request.name(),
         request.email(), request.departmentId());
 
@@ -51,7 +53,8 @@ public class EmployeeController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody CreateEmployeeRequest request) {
+  public ResponseEntity<Employee> updateEmployee(@PathVariable Long id,
+      @Valid @RequestBody CreateEmployeeRequest request) {
     Employee updated = employeeService.updateEmployee(id, request.name(),
         request.email(), request.departmentId());
 
