@@ -5,9 +5,9 @@ trong đó có đề bài, code thực hành và ghi chú.
 
 ```
 learn_java/
-├── java_core_practice/        # Java core: OOP, kế thừa, đa hình, quản lý danh sách
-└── java_spring_framework/     # Spring Framework
-    └── spring_data_JPA/       # Spring Boot + truy cập dữ liệu
+├── java_core_practice/         # Java core: OOP, kế thừa, đa hình, quản lý danh sách
+└── java_spring_framework/      # Spring Framework
+    └── employee_management/    # Mini project Spring Boot xuyên suốt 10 module
 ```
 
 ## java_core_practice
@@ -44,10 +44,14 @@ hãng, chỉ ra hãng có nhiều xe nhất, sắp xếp giảm dần theo số 
 
 → Đề bài đầy đủ: [`src/practice3/practice3.md`](java_core_practice/src/practice3/practice3.md)
 
-## java_spring_framework/spring_data_JPA
+## java_spring_framework/employee_management
 
-Project Spring Boot dùng để thực hành phần truy cập dữ liệu (Spring Boot 4.1.1, Java 21, MySQL).
-Chi tiết cách chạy và ghi chú trong [README của module](java_spring_framework/spring_data_JPA/README.md).
+Mini project **Employee Management System** (Spring Boot 4.1.1, Java 21, MySQL), dựng dần qua 10 module:
+REST API → JPA → validation → Thymeleaf → logging/profile → actuator/cache/scheduler → Spring Security + JWT
+→ thống kê. Mỗi module là một branch `feature/mini-project-labN` được merge về `main`.
+
+Cách chạy, tài liệu API, mô hình phân quyền và ghi chú test nằm trong
+[README của project](java_spring_framework/employee_management/README.md).
 
 ## Quy ước
 
