@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -77,11 +78,12 @@ class EmployeeControllerTest {
   }
 
   @Test
-  void findAll_rejectedWhenNotAuthenticated() throws Exception {
-    // 403 chứ không phải 401 vì SecurityConfig chưa khai AuthenticationEntryPoint riêng,
-    // Spring Security fallback về Http403ForbiddenEntryPoint
+  void findAll_rejectedWithEmptyBodyWhenNotAuthenticated() throws Exception {
+    // 403 (không phải 401) và không có body: bị chặn ở tầng filter bởi Http403ForbiddenEntryPoint,
+    // chưa vào tới DispatcherServlet nên GlobalExceptionHandler không can thiệp được
     mockMvc.perform(get("/api/employees"))
-        .andExpect(status().isForbidden());
+        .andExpect(status().isForbidden())
+        .andExpect(content().string(""));
   }
 
   @Test
@@ -98,10 +100,14 @@ class EmployeeControllerTest {
 
   @Test
   void createEmployee_forbiddenForUserRole() throws Exception {
+    // đã đăng nhập nhưng sai role: @PreAuthorize ném AccessDeniedException bên trong
+    // DispatcherServlet nên GlobalExceptionHandler bắt được và trả body JSON
     mockMvc.perform(post("/api/employees").with(AS_USER)
         .contentType(MediaType.APPLICATION_JSON)
         .content(VALID_BODY))
-        .andExpect(status().isForbidden());
+        .andExpect(status().isForbidden())
+        .andExpect(jsonPath("$.status").value(403))
+        .andExpect(jsonPath("$.message").value("You do not have permission to perform this action"));
 
     verify(employeeService, never()).createEmployee(any(), any(), any());
   }
