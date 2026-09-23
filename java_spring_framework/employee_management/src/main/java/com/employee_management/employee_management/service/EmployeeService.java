@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.employee_management.employee_management.Entity.Department;
 import com.employee_management.employee_management.Entity.Employee;
+import com.employee_management.employee_management.exception.EmployeeNotFoundException;
 import com.employee_management.employee_management.repository.EmployeeRepository;
 
 @Service
@@ -50,7 +51,7 @@ public class EmployeeService {
 
   public Employee updateEmployee(Long id, String name, String email, Long departmentId) {
     Employee employee = employeeRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Employee not found with id: " + id));
+        .orElseThrow(() -> new EmployeeNotFoundException(id));
 
     Department department = departmentService.findById(departmentId)
         .orElseThrow(() -> new IllegalArgumentException("Department not found with id: " + departmentId));
@@ -64,7 +65,7 @@ public class EmployeeService {
 
   public void deleteEmployee(Long id) {
     if (!employeeRepository.existsById(id)) {
-      throw new IllegalArgumentException("Employee not found with id: " + id);
+      throw new EmployeeNotFoundException(id);
     }
 
     employeeRepository.deleteById(id);
