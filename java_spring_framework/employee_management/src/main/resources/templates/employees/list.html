@@ -9,6 +9,7 @@
   <h1>Employee List</h1>
 
   <a class="btn" th:href="@{/employees/add}">+ Add Employee</a>
+  <a class="btn" th:href="@{/employees/statistics}">View Statistics</a>
 
   <form method="get" th:action="@{/employees/list}" class="search-form">
     <input type="text" name="name" placeholder="Search by name" th:value="${name}">

@@ -15,6 +15,7 @@ import com.employee_management.employee_management.Entity.Employee;
 import com.employee_management.employee_management.dto.EmployeeForm;
 import com.employee_management.employee_management.service.DepartmentService;
 import com.employee_management.employee_management.service.EmployeeService;
+import com.employee_management.employee_management.service.StatisticsService;
 
 import jakarta.validation.Valid;
 
@@ -24,10 +25,13 @@ public class EmployeeViewController {
 
   private final EmployeeService employeeService;
   private final DepartmentService departmentService;
+  private final StatisticsService statisticsService;
 
-  public EmployeeViewController(EmployeeService employeeService, DepartmentService departmentService) {
+  public EmployeeViewController(EmployeeService employeeService, DepartmentService departmentService,
+      StatisticsService statisticsService) {
     this.employeeService = employeeService;
     this.departmentService = departmentService;
+    this.statisticsService = statisticsService;
   }
 
   @GetMapping("/list")
@@ -62,5 +66,13 @@ public class EmployeeViewController {
     employeeService.createEmployee(form.getName(), form.getEmail(), form.getDepartmentId());
 
     return "redirect:/employees/list";
+  }
+
+  @GetMapping("/statistics")
+  public String statistics(Model model) {
+    model.addAttribute("departmentStats", statisticsService.countEmployeesByDepartment());
+    model.addAttribute("totalEmployees", statisticsService.countTotalEmployees());
+
+    return "employees/statistics";
   }
 }
