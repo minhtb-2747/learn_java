@@ -3,6 +3,7 @@ package com.employee_management.employee_management.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class EmployeeController {
   }
 
   @GetMapping
+  @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
   public List<Employee> findAll(@RequestParam(required = false) String name) {
     List<Employee> employees = name != null
         ? employeeService.searchByName(name)
@@ -39,12 +41,14 @@ public class EmployeeController {
   }
 
   @GetMapping("/{id}")
+  @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
   public ResponseEntity<Employee> findById(@PathVariable Long id) {
     return employeeService.findById(id).map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   @PostMapping
+  @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<Employee> createEmployee(@Valid @RequestBody CreateEmployeeRequest request) {
     Employee created = employeeService.createEmployee(request.name(),
         request.email(), request.departmentId());
@@ -53,6 +57,7 @@ public class EmployeeController {
   }
 
   @PutMapping("/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<Employee> updateEmployee(@PathVariable Long id,
       @Valid @RequestBody CreateEmployeeRequest request) {
     Employee updated = employeeService.updateEmployee(id, request.name(),
@@ -62,6 +67,7 @@ public class EmployeeController {
   }
 
   @DeleteMapping("/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
     employeeService.deleteEmployee(id);
 
@@ -69,6 +75,7 @@ public class EmployeeController {
   }
 
   @GetMapping("/count")
+  @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
   public long countAll() {
     return employeeService.countAll();
   }
