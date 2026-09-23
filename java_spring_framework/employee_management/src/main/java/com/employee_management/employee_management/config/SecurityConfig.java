@@ -31,6 +31,8 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> auth
             // Login/Register không cần JWT
             .requestMatchers("/api/auth/**").permitAll()
+            // Trang Thymeleaf (server-side render, không gọi qua /api) - public,
+            .requestMatchers("/employees/**", "/css/**").permitAll()
             // Các API khác phải có JWT hợp lệ
             .anyRequest().authenticated())
         // Cho JWT Filter xử lý JWT trước
