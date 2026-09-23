@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.employee_management.employee_management.Entity.Department;
@@ -42,6 +43,13 @@ public class EmployeeService {
 
   public List<Employee> searchByDepartment(String departmentName) {
     return employeeRepository.findByDepartmentNameContainingIgnoreCase(departmentName);
+  }
+
+  @Cacheable("employeeCount")
+  public long countAll() {
+    log.info("Counting all employees");
+
+    return employeeRepository.count();
   }
 
   public Employee createEmployee(String name, String email, Long departmentId) {
