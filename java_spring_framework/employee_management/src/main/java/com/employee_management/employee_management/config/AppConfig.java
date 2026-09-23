@@ -15,9 +15,10 @@ public class AppConfig {
     return new BCryptPasswordEncoder(); // BCryptPasswordEncoder là class của Spring Security
   }
 
-  // @Bean
-  // public AuthenticationManager
-  // authenticationManager(AuthenticationConfiguration config) throws Exception {
-  // return config.getAuthenticationManager();
-  // }
+  // AuthenticationManager: nơi điều phối việc xác thực, dùng DaoAuthenticationProvider
+  // (Spring tự nối UserDetailsService + PasswordEncoder có sẵn trong context vào provider này)
+  @Bean
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    return config.getAuthenticationManager();
+  }
 }

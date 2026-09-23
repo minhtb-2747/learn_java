@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.employee_management.employee_management.Entity.User;
+import com.employee_management.employee_management.dto.LoginRequest;
+import com.employee_management.employee_management.dto.LoginResponse;
 import com.employee_management.employee_management.dto.RegisterRequest;
 import com.employee_management.employee_management.dto.UserResponse;
 import com.employee_management.employee_management.service.AuthService;
@@ -31,11 +33,10 @@ public class AuthController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<String> login(@Valid @RequestBody RegisterRequest request) {
-    System.out.println("ghfdghsfgdhsfgghdf");
-    // User created = authService.register(request.username(), request.password());
+  public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+    String token = authService.login(request.username(), request.password());
 
-    return ResponseEntity.ok("Login thanh cong");
+    return ResponseEntity.ok(new LoginResponse(token));
   }
 
 }
