@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee List</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+  <h1>Employee List</h1>
+
+  <a class="btn" th:href="@{/employees/add}">+ Add Employee</a>
+
+  <form method="get" th:action="@{/employees/list}" class="search-form">
+    <input type="text" name="name" placeholder="Search by name" th:value="${name}">
+    <button type="submit">Search</button>
+    <a class="link-muted" th:if="${name != null}" th:href="@{/employees/list}">Clear</a>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Department</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="employee : ${employees}">
+        <td th:text="${employee.id}">1</td>
+        <td th:text="${employee.name}">Name</td>
+        <td th:text="${employee.email}">Email</td>
+        <td th:text="${employee.department.name}">Department</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p th:if="${employees.isEmpty()}">No employees yet.</p>
+</body>
+</html>
