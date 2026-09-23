@@ -1,0 +1,60 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add Employee</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+  </head>
+  <body>
+    <h1>Add Employee</h1>
+
+    <form
+      th:action="@{/employees/add}"
+      th:object="${employeeForm}"
+      method="post"
+      class="form"
+    >
+      <div class="form-row">
+        <label for="name">Name</label>
+        <input type="text" id="name" th:field="*{name}" />
+        <span
+          class="error"
+          th:if="${#fields.hasErrors('name')}"
+          th:errors="*{name}"
+        ></span>
+      </div>
+
+      <div class="form-row">
+        <label for="email">Email</label>
+        <input type="text" id="email" th:field="*{email}" />
+        <span
+          class="error"
+          th:if="${#fields.hasErrors('email')}"
+          th:errors="*{email}"
+        ></span>
+      </div>
+
+      <div class="form-row">
+        <label for="departmentId">Department</label>
+        <select id="departmentId" th:field="*{departmentId}">
+          <option value="">-- Select department --</option>
+          <option
+            th:each="department : ${departments}"
+            th:value="${department.id}"
+            th:text="${department.name}"
+          >
+            Department
+          </option>
+        </select>
+        <span
+          class="error"
+          th:if="${#fields.hasErrors('departmentId')}"
+          th:errors="*{departmentId}"
+        ></span>
+      </div>
+
+      <button type="submit">Save</button>
+      <a th:href="@{/employees/list}">Cancel</a>
+    </form>
+  </body>
+</html>
