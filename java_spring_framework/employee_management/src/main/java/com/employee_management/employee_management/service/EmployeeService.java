@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import com.employee_management.employee_management.repository.EmployeeRepository
 public class EmployeeService {
 
   private static final Logger log = LoggerFactory.getLogger(EmployeeService.class);
+  private static final String EMPLOYEE_COUNT_CACHE = "employeeCount";
 
   private final UtilityService utilityService;
   private final EmployeeRepository employeeRepository;
@@ -45,13 +47,14 @@ public class EmployeeService {
     return employeeRepository.findByDepartmentNameContainingIgnoreCase(departmentName);
   }
 
-  @Cacheable("employeeCount")
+  @Cacheable(EMPLOYEE_COUNT_CACHE)
   public long countAll() {
     log.info("Counting all employees");
 
     return employeeRepository.count();
   }
 
+  @CacheEvict(EMPLOYEE_COUNT_CACHE)
   public Employee createEmployee(String name, String email, Long departmentId) {
     log.info("Creating employee: name={}, email={}, departmentId={}", name, email, departmentId);
 
@@ -95,6 +98,7 @@ public class EmployeeService {
     return saved;
   }
 
+  @CacheEvict(EMPLOYEE_COUNT_CACHE)
   public void deleteEmployee(Long id) {
     log.info("Deleting employee: id={}", id);
 

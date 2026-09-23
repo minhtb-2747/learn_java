@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee Statistics</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+  <h1>Employee Statistics</h1>
+
+  <a class="link-muted" th:href="@{/employees/list}">Back to list</a>
+
+  <p>Total employees: <strong th:text="${totalEmployees}">0</strong></p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Department</th>
+        <th>Employee count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="stat : ${departmentStats}">
+        <td th:text="${stat.departmentName}">Department</td>
+        <td th:text="${stat.employeeCount}">0</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p th:if="${departmentStats.isEmpty()}">No data yet.</p>
+</body>
+</html>
