@@ -284,18 +284,19 @@ Quyền: `USER`, `ADMIN`. Dùng lại đúng giá trị đã cache của `/api/e
 
 ### `/api/departments` — phòng ban
 
-Quyền: **mọi user đã đăng nhập** (kể cả `USER`) — controller này chưa gắn `@PreAuthorize`.
+Phân quyền giống `/api/employees`: **đọc** thì `USER` và `ADMIN` đều được, **ghi** thì chỉ `ADMIN`.
 
-| Method | URL                     | Request               | Response                             |
-| ------ | ----------------------- | --------------------- | ------------------------------------ |
-| GET    | `/api/departments`      | —                     | `200` `[{ "id": 1, "name": "IT" }]`  |
-| GET    | `/api/departments/{id}` | —                     | `200` object, hoặc `404` body rỗng   |
-| POST   | `/api/departments`      | `{ "name": "Sales" }` | `200` `{ "id": 3, "name": "Sales" }` |
-| PUT    | `/api/departments/{id}` | `{ "name": "Sales" }` | `200` object đã sửa                  |
-| DELETE | `/api/departments/{id}` | —                     | `204`                                |
+| Method | URL                     | Quyền   | Request               | Response                             |
+| ------ | ----------------------- | ------- | --------------------- | ------------------------------------ |
+| GET    | `/api/departments`      | USER, ADMIN | —                 | `200` `[{ "id": 1, "name": "IT" }]`  |
+| GET    | `/api/departments/{id}` | USER, ADMIN | —                 | `200` object, hoặc `404` body rỗng   |
+| POST   | `/api/departments`      | **ADMIN**   | `{ "name": "Sales" }` | `200` `{ "id": 3, "name": "Sales" }` |
+| PUT    | `/api/departments/{id}` | **ADMIN**   | `{ "name": "Sales" }` | `200` object đã sửa                  |
+| DELETE | `/api/departments/{id}` | **ADMIN**   | —                 | `204`                                |
 
+`USER` gọi `POST`/`PUT`/`DELETE` nhận `403` kèm `ErrorResponse`.
 `PUT`/`DELETE` với id không tồn tại trả `400` `"Department not found with id: 99"` (không phải 404).
-Body của `POST`/`PUT` **không được validate** (thiếu `@Valid`), nên `name` rỗng sẽ đi thẳng xuống DB và vi phạm
+Body của `POST`/`PUT` **vẫn chưa được validate** (thiếu `@Valid`), nên `name` rỗng sẽ đi thẳng xuống DB và vi phạm
 ràng buộc `NOT NULL` thay vì được chặn ở tầng API.
 
 ---
@@ -350,8 +351,11 @@ Hai nhóm test:
   **rule phân quyền** (USER gọi API ghi phải nhận 403, ADMIN thì được).
 
 Lưu ý khi viết thêm test controller: filter chain đang `STATELESS`, nên `@WithMockUser` **không có tác dụng**
-(context bị `NullSecurityContextRepository` ghi đè). Dùng request post-processor thay thế:
+(context bị `NullSecurityContextRepository` ghi đè). Dùng request post-processor thay thế. Hai danh tính dùng
+chung nằm ở `support/TestUsers` — đừng khai lại trong từng file test, để khi cách gán quyền đổi thì chỉ sửa một chỗ:
 
 ```java
-mockMvc.perform(get("/api/employees").with(user("admin").roles("ADMIN")))
+import static com.employee_management.employee_management.support.TestUsers.AS_ADMIN;
+
+mockMvc.perform(get("/api/employees").with(AS_ADMIN))
 ```
