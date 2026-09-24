@@ -54,7 +54,7 @@ public class EmployeeService {
     return employeeRepository.count();
   }
 
-  @CacheEvict(EMPLOYEE_COUNT_CACHE)
+  @CacheEvict(value = EMPLOYEE_COUNT_CACHE, allEntries = true)
   public Employee createEmployee(String name, String email, Long departmentId) {
     log.info("Creating employee: name={}, email={}, departmentId={}", name, email, departmentId);
 
@@ -98,7 +98,7 @@ public class EmployeeService {
     return saved;
   }
 
-  @CacheEvict(EMPLOYEE_COUNT_CACHE)
+  @CacheEvict(value = EMPLOYEE_COUNT_CACHE, allEntries = true)
   public void deleteEmployee(Long id) {
     log.info("Deleting employee: id={}", id);
 
