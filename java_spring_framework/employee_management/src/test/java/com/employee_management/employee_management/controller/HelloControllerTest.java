@@ -1,6 +1,6 @@
 package com.employee_management.employee_management.controller;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static com.employee_management.employee_management.support.TestUsers.AS_USER;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,7 +27,7 @@ class HelloControllerTest {
 
   @Test
   void hello() throws Exception {
-    mockMvc.perform(get("/api/hello").with(user("user").roles("USER")))
+    mockMvc.perform(get("/api/hello").with(AS_USER))
         .andExpect(status().isOk())
         .andExpect(content().string("Hello world !"));
   }

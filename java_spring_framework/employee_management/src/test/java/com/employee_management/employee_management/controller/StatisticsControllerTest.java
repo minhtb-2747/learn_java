@@ -1,7 +1,8 @@
 package com.employee_management.employee_management.controller;
 
+import static com.employee_management.employee_management.support.TestUsers.AS_ADMIN;
+import static com.employee_management.employee_management.support.TestUsers.AS_USER;
 import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -15,7 +16,6 @@ import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 import com.employee_management.employee_management.config.SecurityConfig;
 import com.employee_management.employee_management.dto.DepartmentStatsResponse;
@@ -25,9 +25,6 @@ import com.employee_management.employee_management.service.StatisticsService;
 @WebMvcTest(StatisticsController.class)
 @Import(SecurityConfig.class)
 class StatisticsControllerTest {
-
-  private static final RequestPostProcessor AS_USER = user("user").roles("USER");
-  private static final RequestPostProcessor AS_ADMIN = user("admin").roles("ADMIN");
 
   @Autowired
   private MockMvc mockMvc;
