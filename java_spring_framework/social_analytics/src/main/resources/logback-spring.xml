@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-	Dùng tên logback-spring.xml (không phải logback.xml) để Spring Boot nạp sau Environment,
-	nhờ đó dùng được <springProfile> và các property logging.* trong application-*.properties.
--->
+<!-- Đặt tên -spring để dùng được <springProfile> và property logging.* -->
 <configuration>
 	<!-- Pattern, màu và converter mặc định của Spring Boot -->
 	<include resource="org/springframework/boot/logging/logback/defaults.xml"/>
@@ -17,7 +14,7 @@
 		</root>
 	</springProfile>
 
-	<!-- prod: console + file xoay vòng (cấu hình logging.logback.rollingpolicy.* trong application-prod) -->
+	<!-- prod: console + file xoay vòng (cấu hình trong application-prod) -->
 	<springProfile name="prod">
 		<include resource="org/springframework/boot/logging/logback/file-appender.xml"/>
 		<root level="INFO">
