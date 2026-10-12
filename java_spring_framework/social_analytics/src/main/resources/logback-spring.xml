@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Đặt tên -spring để dùng được <springProfile> và property logging.* -->
+<configuration>
+	<!-- Pattern, màu và converter mặc định của Spring Boot -->
+	<include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+	<!-- CONSOLE appender có màu của Boot -->
+	<include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+	<!-- dev (và khi không bật profile): chỉ log ra console -->
+	<springProfile name="!prod">
+		<root level="INFO">
+			<appender-ref ref="CONSOLE"/>
+		</root>
+	</springProfile>
+
+	<!-- prod: console + file xoay vòng (cấu hình trong application-prod) -->
+	<springProfile name="prod">
+		<include resource="org/springframework/boot/logging/logback/file-appender.xml"/>
+		<root level="INFO">
+			<appender-ref ref="CONSOLE"/>
+			<appender-ref ref="FILE"/>
+		</root>
+	</springProfile>
+</configuration>
