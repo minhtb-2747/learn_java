@@ -1,0 +1,26 @@
+# MySQL cho môi trường local. Đọc biến từ file .env cùng thư mục.
+# Chạy: docker compose up -d
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: social-analytics-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-social_analytics}
+      MYSQL_USER: ${DB_USERNAME:-social}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-social}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+      TZ: UTC
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mysql-data:
